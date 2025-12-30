@@ -1,0 +1,1685 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calendario Académico UATF - Gestión 2026</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        
+        :root {
+            --primary-blue: #1a3a8f;
+            --secondary-blue: #2a5bd7;
+            --light-blue: #e8f2ff;
+            --accent-red: #d7263d;
+            --light-red: #ffe8ea;
+            --dark-gray: #2d3748;
+            --medium-gray: #4a5568;
+            --light-gray: #f7fafc;
+            --white: #ffffff;
+            --shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        body {
+            background: linear-gradient(135deg, #f5f7ff 0%, #eef1ff 100%);
+            color: var(--dark-gray);
+            line-height: 1.6;
+            min-height: 100vh;
+            font-size: 16px;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 15px;
+        }
+        
+        /* Pantalla de inicio */
+        .intro-screen {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: linear-gradient(rgba(26, 58, 143, 0.85), rgba(42, 91, 215, 0.9)), url('https://elpotosi.net/img/contents/images_640/2021/12/17/190c5d2c-46cd-425e-bea0-f7d18dc69ef2.jpg');
+            background-size: cover;
+            background-position: center;
+            color: var(--white);
+            padding: 20px 15px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .intro-screen::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" preserveAspectRatio="none"><path fill="%23ffffff" opacity="0.05" d="M0,0 L100,0 L100,100 Z" /></svg>');
+            background-size: cover;
+        }
+        
+        .intro-screen.hidden {
+            display: none;
+        }
+        
+        .uatf-logo {
+            width: 180px;
+            height: 180px;
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .uatf-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: brightness(0) invert(1);
+        }
+        
+        .intro-screen h1 {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+            position: relative;
+            z-index: 1;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+        
+        .intro-screen h2 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: var(--light-blue);
+            font-weight: 600;
+            position: relative;
+            z-index: 1;
+            line-height: 1.3;
+        }
+        
+        .intro-content {
+            max-width: 100%;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(12px);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: left;
+            position: relative;
+            z-index: 1;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            max-height: 60vh;
+            overflow-y: auto;
+        }
+        
+        .intro-content h3 {
+            text-align: center;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            color: var(--light-blue);
+            font-weight: 700;
+        }
+        
+        .intro-content p {
+            margin-bottom: 15px;
+            font-size: 0.95rem;
+        }
+        
+        .intro-content ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        
+        .intro-content li {
+            margin-bottom: 8px;
+            position: relative;
+            padding-left: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .intro-content li::before {
+            content: "•";
+            color: var(--accent-red);
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
+        }
+        
+        .continue-btn {
+            background: var(--accent-red);
+            color: var(--white);
+            border: none;
+            padding: 16px 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            border-radius: 60px;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 8px 25px rgba(215, 38, 61, 0.4);
+            position: relative;
+            z-index: 1;
+            letter-spacing: 0.5px;
+            width: 90%;
+            max-width: 350px;
+        }
+        
+        .continue-btn:hover {
+            background: #c41e34;
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(215, 38, 61, 0.5);
+        }
+        
+        /* Pantalla del calendario */
+        .calendar-screen {
+            display: none;
+            animation: fadeIn 0.8s ease;
+        }
+        
+        .calendar-screen.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .header {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            padding: 20px 15px;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            border-left: 5px solid var(--accent-red);
+            text-align: center;
+            gap: 15px;
+        }
+        
+        .header h1 {
+            color: var(--primary-blue);
+            font-size: 1.5rem;
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+            line-height: 1.3;
+        }
+        
+        .header h1 i {
+            color: var(--accent-red);
+        }
+        
+        .back-btn {
+            background: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            padding: 12px 20px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: var(--transition);
+            font-size: 0.95rem;
+        }
+        
+        .back-btn:hover {
+            background: #0f2a6e;
+            transform: translateX(-5px);
+        }
+        
+        /* Contenedor principal */
+        .main-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        /* Panel de información */
+        .info-panel {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            order: 2;
+        }
+        
+        .info-panel h2 {
+            color: var(--primary-blue);
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-blue);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .info-panel h2 i {
+            color: var(--accent-red);
+        }
+        
+        .info-section {
+            margin-bottom: 20px;
+        }
+        
+        .info-section h3 {
+            color: var(--medium-gray);
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            font-weight: 600;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 10px;
+        }
+        
+        .info-item {
+            background: var(--light-gray);
+            padding: 12px;
+            border-radius: 10px;
+            border-left: 4px solid var(--secondary-blue);
+            transition: var(--transition);
+        }
+        
+        .info-item:hover {
+            transform: translateX(5px);
+            background: var(--light-blue);
+        }
+        
+        .info-item.red {
+            border-left-color: var(--accent-red);
+        }
+        
+        .info-item.red:hover {
+            background: var(--light-red);
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: var(--primary-blue);
+            margin-bottom: 5px;
+            font-size: 0.9rem;
+        }
+        
+        .info-value {
+            color: var(--dark-gray);
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        
+        /* Selector de mes */
+        .month-selector {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: 20px 0;
+            padding: 15px;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            order: 1;
+        }
+        
+        .month-selector button {
+            background: var(--primary-blue);
+            color: var(--white);
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.1rem;
+            transition: var(--transition);
+            flex-shrink: 0;
+        }
+        
+        .month-selector button:hover {
+            background: var(--accent-red);
+            transform: scale(1.1);
+        }
+        
+        .month-year {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-align: center;
+            padding: 0 10px;
+            flex-grow: 1;
+        }
+        
+        /* Calendario */
+        .calendar-container {
+            background: var(--white);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            height: fit-content;
+            order: 3;
+            margin-top: 10px;
+        }
+        
+        .calendar-header {
+            background: linear-gradient(135deg, var(--primary-blue) 0%, var(--secondary-blue) 100%);
+            color: var(--white);
+            padding: 20px 15px;
+            text-align: center;
+        }
+        
+        .calendar-header h2 {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            background: var(--light-blue);
+            padding: 12px 0;
+            font-weight: 700;
+            color: var(--primary-blue);
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.8rem;
+        }
+        
+        .days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 1px;
+            background: #e2e8f0;
+        }
+        
+        .day {
+            background: var(--white);
+            min-height: 85px;
+            padding: 8px 5px;
+            position: relative;
+            transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            font-size: 0.85rem;
+            cursor: pointer;
+        }
+        
+        .day:hover {
+            background: var(--light-gray);
+            z-index: 10;
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+        
+        /* TOOLTIP */
+        .day-tooltip {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(26, 58, 143, 0.95);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            max-width: 400px;
+            width: 90%;
+            max-height: 70vh;
+            overflow-y: auto;
+            z-index: 10000;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+        
+        .tooltip-header {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: #ffffff;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .tooltip-event {
+            margin-bottom: 12px;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            border-left: 4px solid;
+        }
+        
+        .tooltip-event:last-child {
+            margin-bottom: 0;
+        }
+        
+        .tooltip-event strong {
+            display: block;
+            color: #ffffff;
+            margin-bottom: 6px;
+            font-size: 0.95rem;
+        }
+        
+        .tooltip-event small {
+            display: block;
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.8rem;
+            margin-top: 5px;
+        }
+        
+        /* Colores para los eventos */
+        .tooltip-event.holiday {
+            border-left-color: #ff6b6b;
+            background: rgba(215, 38, 61, 0.9);
+        }
+        
+        .tooltip-event.academic {
+            border-left-color: #0b93ac;
+            background: rgba(4, 136, 153, 0.9);
+        }
+        
+        .tooltip-event.matricula {
+            border-left-color: #ffc107;
+            background: rgba(255, 195, 0, 0.9);
+        }
+        
+        /* Cerrar tooltip */
+        .close-tooltip {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(215, 38, 61, 0.8);
+            color: white;
+            border: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+        
+        /* EVENTOS VISIBLES - MEJORADO */
+        .day-events {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+            margin-top: 5px;
+        }
+        
+        .event {
+            padding: 3px 5px;
+            font-size: 0.65rem;
+            border-radius: 4px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-weight: 600;
+            border-left: 3px solid;
+            transition: var(--transition);
+            text-align: center;
+            min-height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Colores más intensos para mejor visibilidad */
+        .holiday {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ff4757 100%);
+            border-left-color: #d63031;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 4px rgba(215, 38, 61, 0.3);
+        }
+        
+        .academic {
+            background: linear-gradient(135deg, #09a7a7 0%, #0aa2a7 100%);
+            border-left-color: #064347;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 4px rgba(14, 85, 61, 0.3);
+        }
+        
+        .matricula {
+            background: linear-gradient(135deg, #ffc107 0%, #ff9800 100%);
+            border-left-color: #e68900;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 4px rgba(255, 195, 0, 0.3);
+        }
+        
+        .today {
+            background: #f0f7ff;
+            border: 2px solid var(--secondary-blue);
+        }
+        
+        .empty {
+            background: #f9fafb;
+        }
+        
+        .day-number {
+            font-weight: 800;
+            color: #1a5a1a !important;
+            margin-bottom: 5px;
+            font-size: 1rem;
+            align-self: flex-start;
+            background: rgba(234, 250, 234, 0.3);
+            padding: 2px 6px;
+            border-radius: 4px;
+            display: inline-block;
+        }
+        
+        /* Para días con múltiples eventos */
+        .has-multiple-events .day-number {
+            background: rgba(255, 243, 205, 0.3);
+            color: #b38b00 !important;
+        }
+        
+        .has-events .day-number {
+            font-weight: 900;
+            color: #0d3d0d !important;
+            transform: scale(1.05);
+        }
+        
+        /* Pestañas de categorías */
+        .categories {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .category-tab {
+            padding: 8px 15px;
+            background: var(--light-gray);
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            border: 2px solid transparent;
+            font-size: 0.85rem;
+            white-space: nowrap;
+        }
+        
+        .category-tab.active {
+            background: var(--primary-blue);
+            color: var(--white);
+        }
+        
+        .category-tab:hover:not(.active) {
+            border-color: var(--primary-blue);
+        }
+        
+        .category-tab.holidays {
+            background: var(--light-red);
+        }
+        
+        .category-tab.holidays.active {
+            background: var(--accent-red);
+            color: var(--white);
+        }
+        
+        .category-tab.academic {
+            background: #e8f7f0;
+        }
+        
+        .category-tab.academic.active {
+            background: #0aa18d;
+            color: var(--white);
+        }
+        
+        .category-tab.matricula {
+            background: #fff3cd;
+        }
+        
+        .category-tab.matricula.active {
+            background: #ffc107;
+            color: var(--dark-gray);
+        }
+        
+        /* Eventos importantes */
+        .important-events {
+            margin-top: 30px;
+            background: var(--white);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            order: 4;
+        }
+        
+        .important-events h3 {
+            color: var(--primary-blue);
+            font-size: 1.4rem;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--light-blue);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .event-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        
+        .event-card {
+            background: var(--light-gray);
+            border-radius: 12px;
+            padding: 15px;
+            transition: var(--transition);
+            border-left: 5px solid var(--secondary-blue);
+        }
+        
+        .event-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .event-card.holiday {
+            border-left-color: var(--accent-red);
+        }
+        
+        .event-card.academic {
+            border-left-color: #0c9e8b;
+        }
+        
+        .event-card.matricula {
+            border-left-color: #ffc107;
+        }
+        
+        .event-date {
+            font-weight: 700;
+            color: var(--primary-blue);
+            margin-bottom: 6px;
+            font-size: 1rem;
+        }
+        
+        .event-title {
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--dark-gray);
+            font-size: 1rem;
+            line-height: 1.3;
+        }
+        
+        .event-description {
+            color: var(--medium-gray);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 10px;
+        }
+        
+        .event-period {
+            display: inline-block;
+            background: var(--light-blue);
+            color: var(--primary-blue);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .event-type {
+            display: inline-block;
+            padding: 4px 10px;
+            background: var(--light-blue);
+            color: var(--primary-blue);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .event-type.holiday {
+            background: var(--light-red);
+            color: var(--accent-red);
+        }
+        
+        .event-type.academic {
+            background: #e8f7f0;
+            color: #0daf87;
+        }
+        
+        .event-type.matricula {
+            background: #fff3cd;
+            color: #b38b00;
+        }
+        
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 30px;
+            padding: 20px 15px;
+            border-top: 1px solid #e2e8f0;
+            color: var(--medium-gray);
+            font-size: 0.85rem;
+            background: var(--white);
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            order: 5;
+        }
+        
+        /* Overlay para tooltip */
+        .tooltip-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 9999;
+        }
+        
+        /* Para móvil - CON EMOJIS Y EVENTOS VISIBLES */
+        @media (max-width: 768px) {
+            .day.has-multiple-events .event {
+                font-size: 0.55rem;
+                padding: 2px 3px;
+                min-height: 16px;
+            }
+            
+            /* EMOJIS PARA EVENTOS EN MÓVIL */
+            .event {
+                font-size: 0.5rem;
+                padding: 2px 3px;
+                min-height: 14px;
+            }
+            
+            .event.holiday::before {
+                content: "🎉";
+                margin-right: 2px;
+            }
+            
+            .event.academic::before {
+                content: "📚";
+                margin-right: 2px;
+            }
+            
+            .event.matricula::before {
+                content: "💰";
+                margin-right: 2px;
+            }
+            
+            /* Para días con un solo evento */
+            .has-single-event .event {
+                font-size: 0.6rem;
+                padding: 3px 4px;
+                min-height: 16px;
+            }
+            
+            /* Ajustes para pantallas muy pequeñas */
+            @media (max-width: 480px) {
+                .container {
+                    padding: 10px;
+                }
+                
+                .intro-screen h1 {
+                    font-size: 1.6rem;
+                }
+                
+                .intro-screen h2 {
+                    font-size: 1.1rem;
+                }
+                
+                .intro-content {
+                    padding: 15px;
+                    max-height: 50vh;
+                }
+                
+                .header {
+                    padding: 15px 10px;
+                }
+                
+                .header h1 {
+                    font-size: 1.3rem;
+                }
+                
+                .month-year {
+                    font-size: 1.1rem;
+                }
+                
+                .month-selector button {
+                    width: 40px;
+                    height: 40px;
+                    font-size: 1rem;
+                }
+                
+                .calendar-header h2 {
+                    font-size: 1.3rem;
+                }
+                
+                .weekdays {
+                    font-size: 0.75rem;
+                    padding: 10px 0;
+                }
+                
+                .day {
+                    min-height: 75px;
+                    padding: 6px 3px;
+                }
+                
+                .day-number {
+                    font-size: 0.85rem;
+                }
+                
+                .categories {
+                    gap: 8px;
+                }
+                
+                .category-tab {
+                    padding: 6px 12px;
+                    font-size: 0.8rem;
+                }
+            }
+        }
+        
+        /* Ajustes para tablets */
+        @media (min-width: 768px) {
+            .intro-screen h1 {
+                font-size: 2.5rem;
+            }
+            
+            .intro-screen h2 {
+                font-size: 1.8rem;
+            }
+            
+            .intro-content {
+                max-height: 50vh;
+                padding: 30px;
+            }
+            
+            .header {
+                flex-direction: row;
+                justify-content: space-between;
+                text-align: left;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .main-container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 25px;
+            }
+            
+            .info-panel {
+                order: 1;
+            }
+            
+            .month-selector {
+                grid-column: 1 / -1;
+                order: 2;
+            }
+            
+            .calendar-container {
+                order: 3;
+                grid-column: 1 / -1;
+            }
+            
+            .important-events {
+                order: 4;
+                grid-column: 1 / -1;
+            }
+            
+            .event-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .day {
+                min-height: 100px;
+            }
+            
+            .event {
+                font-size: 0.6rem;
+                padding: 3px 5px;
+            }
+            
+            /* Quitar emojis en desktop */
+            .event.holiday::before,
+            .event.academic::before,
+            .event.matricula::before {
+                content: "";
+                margin-right: 0;
+            }
+            
+            /* Mostrar texto en desktop */
+            .event.holiday {
+                content: "Feriado";
+            }
+            
+            .event.academic {
+                content: "Acad.";
+            }
+            
+            .event.matricula {
+                content: "Matrícula";
+            }
+        }
+        
+        /* Ajustes para desktop */
+        @media (min-width: 1100px) {
+            .container {
+                padding: 20px;
+            }
+            
+            .main-container {
+                grid-template-columns: 1fr 1fr;
+            }
+            
+            .info-panel {
+                order: 1;
+                grid-row: 1;
+            }
+            
+            .month-selector {
+                order: 2;
+                grid-column: 2;
+                grid-row: 1;
+                margin: 0;
+            }
+            
+            .calendar-container {
+                order: 3;
+                grid-column: 2;
+                grid-row: 2;
+                margin-top: 0;
+            }
+            
+            .important-events {
+                order: 4;
+                grid-column: 1;
+                grid-row: 2 / span 2;
+                margin-top: 0;
+            }
+            
+            .event-list {
+                grid-template-columns: 1fr;
+            }
+            
+            .day {
+                min-height: 110px;
+            }
+            
+            .event {
+                font-size: 0.65rem;
+                padding: 3px 6px;
+            }
+        }
+        
+        /* Scroll personalizado */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--secondary-blue);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-blue);
+        }
+    </style>
+</head>
+<body>
+    <!-- Pantalla de inicio -->
+    <div class="intro-screen" id="introScreen">
+        <div class="uatf-logo">
+            <img src="https://www.uatf.edu.bo/assets/images/brand-logo.svg" alt="Logo UATF">
+        </div>
+        
+        <h1>CALENDARIO ACADÉMICO</h1>
+      
+        <h2>GESTIÓN 2026</h2>
+        
+        <div class="intro-content">
+            <h3>INTRODUCCIÓN</h3>
+            <p>El presente calendario académico establece las actividades académicas y administrativas que guiarán el Proceso Enseñanza-Aprendizaje durante la gestión académica 2026.</p>
+            
+            <p><strong>Características principales:</strong></p>
+            <ul>
+                <li>El Vicerrectorado y/o Dirección de Servicios Académicos emitirán circulares para el cumplimiento e interpretación del calendario.</li>
+                <li>Las asignaturas de graduación podrán ampliar la entrega de planillas hasta tres semanas después del período académico regular.</li>
+                <li>Las unidades académicas podrán ampliar períodos de exámenes respetando plazos de entrega de planillas.</li>
+                <li>Se admiten solicitudes excepcionales de matrícula fuera de períodos regulares, con costo diferenciado.</li>
+                <li>Tolerancia de tres semanas en compra de matrícula para estudiantes de nuevo ingreso (costo normal).</li>
+            </ul>
+        </div>
+        
+        <button class="continue-btn" id="continueBtn">
+            <i class="fas fa-calendar-alt"></i> VER CALENDARIO
+        </button>
+    </div>
+    
+    <!-- Pantalla del calendario -->
+    <div class="calendar-screen" id="calendarScreen">
+        <div class="container">
+            <div class="header">
+                <h1><i class="fas fa-calendar-days"></i> CALENDARIO UATF 2026</h1>
+                <button class="back-btn" id="backBtn">
+                    <i class="fas fa-arrow-left"></i> VOLVER
+                </button>
+            </div>
+            
+            <!-- Panel de información -->
+            <div class="info-panel">
+                <h2><i class="fas fa-info-circle"></i> INFORMACIÓN GENERAL</h2>
+                
+                <div class="info-section">
+                    <h3>Períodos Académicos</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">INICIO</div>
+                            <div class="info-value">23 Febrero 2026</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">FIN</div>
+                            <div class="info-value">11 Diciembre 2026</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-section">
+                    <h3>Semestres</h3>
+                    <div class="info-grid">
+                        <div class="info-item red">
+                            <div class="info-label">PRIMER SEMESTRE</div>
+                            <div class="info-value">23/02 al 10/07 (20 semanas)</div>
+                        </div>
+                        <div class="info-item red">
+                            <div class="info-label">SEGUNDO SEMESTRE</div>
+                            <div class="info-value">27/07 al 11/12 (20 semanas)</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="info-section">
+                    <h3>Recesos</h3>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-label">INVIERNO</div>
+                            <div class="info-value">13/07 al 24/07 (2 semanas)</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-label">FIN GESTIÓN</div>
+                            <div class="info-value">21/12/26 al 01/01/27 (2 semanas)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Selector de mes y calendario -->
+            <div class="month-selector">
+                <button id="prevMonth"><i class="fas fa-chevron-left"></i></button>
+                <div class="month-year" id="currentMonthYear">ENERO 2026</div>
+                <button id="nextMonth"><i class="fas fa-chevron-right"></i></button>
+            </div>
+            
+            <div class="calendar-container">
+                <div class="calendar-header">
+                    <h2 id="calendarTitle">ENERO 2026</h2>
+                </div>
+                <div class="weekdays">
+                    <div>LUN</div>
+                    <div>MAR</div>
+                    <div>MIÉ</div>
+                    <div>JUE</div>
+                    <div>VIE</div>
+                    <div>SÁB</div>
+                    <div>DOM</div>
+                </div>
+                <div class="days" id="calendarDays">
+                    <!-- Los días se generarán con JavaScript -->
+                </div>
+            </div>
+            
+            <!-- Eventos importantes -->
+            <div class="important-events">
+                <h3><i class="fas fa-star"></i> EVENTOS DESTACADOS</h3>
+                
+                <div class="categories">
+                    <div class="category-tab active" data-category="all">Todos</div>
+                    <div class="category-tab holidays" data-category="holiday">Feriados</div>
+                    <div class="category-tab academic" data-category="academic">Académicos</div>
+                    <div class="category-tab matricula" data-category="matricula">Matrícula</div>
+                </div>
+                
+                <div class="event-list" id="eventList">
+                    <!-- Los eventos se cargarán con JavaScript -->
+                </div>
+            </div>
+            
+            <div class="footer">
+                <p>Universidad Autónoma Tomás Frías • Calendario Académico 2026</p>
+                <p>Oficina de Servicios Académicos • www.uatf.edu.bo</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Tooltip para mostrar eventos -->
+    <div class="tooltip-overlay" id="tooltipOverlay"></div>
+    <div class="day-tooltip" id="dayTooltip">
+        <button class="close-tooltip" id="closeTooltip">&times;</button>
+        <div id="tooltipContent"></div>
+    </div>
+
+    <script>
+        // Datos del calendario académico 2026 (COMPLETO Y ACTUALIZADO)
+        const academicCalendar = {
+           0: { // Enero 2026
+             events: [
+                    {date: 1, title: "Año Nuevo", type: "holiday", description: "Feriado nacional - Celebración del inicio del nuevo año", period: "1 de enero"},
+                    {date: 5, title: "Convocatoria docentes interinos", type: "academic", description: "Presentación de solicitudes para docentes extraordinarios en calidad de interinos (Primera y Segunda Convocatoria)", period: "5 de enero al 6 de febrero"},
+                    {date: 5, title: "Recepción solicitudes becas", type: "academic", description: "Recepción de solicitudes para Beca Alimentación e Internado", period: "5 de enero al 6 de febrero"},
+                    {date: 5, title: "Inscripciones PSA (2da convocatoria)", type: "academic", description: "Inicio de inscripciones para la segunda Prueba de Suficiencia Académica para primer semestre y sistema anual", period: "5 al 27 de enero"},
+                    {date: 9, title: "Fin recepción folders admisión especial", type: "academic", description: "Fin de recepción de folders y solicitudes para Admisión Especial periodo 1/2026", period: "Cierre: 9 de enero"},
+                    {date: 9, title: "Fin curso preuniversitario", type: "academic", description: "Fecha final del desarrollo del curso preuniversitario", period: "9 de enero"},
+                    {date: 12, title: "Concurso docentes ordinarios", type: "academic", description: "Presentación de solicitudes, publicación de convocatorias y desarrollo del Concurso de Méritos y Examen de Competencia", period: "12 de enero al 13 de febrero"},
+                    {date: 12, title: "Envío folders admisión especial", type: "academic", description: "Envío de folders a las carreras para evaluación de Admisión Especial periodo 1/2026", period: "12 al 14 de enero"},
+                    {date: 12, title: "Evaluaciones curso preuniversitario", type: "academic", description: "Evaluaciones del curso preuniversitario (día 1)", period: "12 de enero"},
+                    {date: 13, title: "Evaluaciones curso preuniversitario", type: "academic", description: "Evaluaciones del curso preuniversitario (día 2)", period: "13 de enero"},
+                    {date: 14, title: "Fin envío folders admisión especial", type: "academic", description: "Fin de envío de folders a las carreras para evaluación", period: "Cierre: 14 de enero"},
+                    {date: 15, title: "Entrega nóminas admisión especial", type: "academic", description: "Entrega de nóminas de postulantes admitidos a la DSA para periodo 1/2026", period: "15 al 21 de enero"},
+                    {date: 16, title: "Presentación resultados curso preuniversitario", type: "academic", description: "Presentación de resultados del curso preuniversitario", period: "16 de enero"},
+                    {date: 19, title: "Publicación convocatoria becas", type: "academic", description: "Publicación de Convocatorias para Becas: Auxiliar de Docencia, Investigación, Trabajo, Graduación y Extensión", period: "19 de enero"},
+                    {date: 20, title: "Postulación a becas", type: "academic", description: "Presentación de solicitudes de postulación a las Becas: Auxiliar de Docencia, Investigación, Trabajo y Graduación", period: "20 de enero al 6 de febrero"},
+                    {date: 21, title: "Fin entrega nóminas admisión especial", type: "academic", description: "Fin de entrega de nóminas de postulantes admitidos", period: "Cierre: 21 de enero"},
+                    {date: 22, title: "Día del Estado Plurinacional", type: "holiday", description: "Feriado nacional - Conmemoración del Estado Plurinacional de Bolivia", period: "22 de enero"},
+                    {date: 27, title: "Fin inscripciones PSA (2da convocatoria)", type: "academic", description: "Fin de inscripciones para la segunda Prueba de Suficiencia Académica", period: "Cierre: 27 de enero"},
+                    {date: 28, title: "Calendario académico específico", type: "academic", description: "Fecha límite para presentación del Calendario Académico Específico de la Unidad Académica", period: "28 de enero"},
+                    {date: 28, title: "Aplicación PSA (2da convocatoria)", type: "academic", description: "Aplicación de la segunda Prueba de Suficiencia Académica para primer semestre y sistema anual", period: "28 de enero"},
+                    {date: 30, title: "Firma de convenios", type: "academic", description: "Fecha límite para firma de convenio marco con instituciones públicas y privadas", period: "30 de enero"},
+                    {date: 30, title: "Informes gestión 2025", type: "academic", description: "Fecha límite para presentación de Informes de la Gestión 2025", period: "30 de enero"}
+                ]
+            },
+            1: { // Febrero 2026
+                events: [
+                    {date: 2, title: "Inscripciones PSA (3ra convocatoria)", type: "academic", description: "Inicio de inscripciones para la tercera Prueba de Suficiencia Académica", period: "2 al 19 de febrero"},
+                    {date: 6, title: "Fin convocatoria docentes interinos", type: "academic", description: "Fin de presentación de solicitudes para docentes interinos", period: "Cierre: 6 de febrero"},
+                    {date: 6, title: "Fin recepción solicitudes a Beca de Alimentacion e Internado", type: "academic", description: "Fin de recepción de solicitudes de postulación a las Beca de Alimentacion e Internado", period: "Cierre: 6 de febrero"},
+                    {date: 6, title: "Fin cursos de verano", type: "academic", description: "Fecha límite de entrega de resultados de Cursos de Verano", period: "6 de febrero"},
+                    {date: 9, title: "Evaluación becas", type: "academic", description: "Evaluación de las solicitudes presentadas a las Becas: Auxiliar de Docencia, Investigación, Trabajo, Graduación y Extensión", period: "9 al 20 de febrero"},
+                    {date: 9, title: "Calificación becas", type: "academic", description: "Calificación de Becas Alimentación e Internado", period: "9 al 13 de febrero"},
+                    {date: 13, title: "Fin concurso docentes ordinarios", type: "academic", description: "Fin del proceso de concurso para docentes ordinarios", period: "Cierre: 13 de febrero"},
+                    {date: 13, title: "Plan de actividades", type: "academic", description: "Fecha límite para presentación del plan de actividades de interacción social y extensión universitaria", period: "13 de febrero"},
+                    {date: 14, title: "Segunda mesa de examen", type: "academic", description: "Segunda mesa de examen para cursos de temporada", period: "14 de febrero"},
+                    {date: 16, title: "Carnaval", type: "holiday", description: "Feriado nacional - Celebración tradicional previa a la Cuaresma", period: "16 y 17 de febrero"},
+                    {date: 17, title: "Carnaval", type: "holiday", description: "Feriado nacional - Segundo día de Carnaval", period: "16 y 17 de febrero"},
+                    {date: 19, title: "Fin inscripciones PSA (3ra)", type: "academic", description: "Fin de inscripciones para tercera Prueba de Suficiencia Académica", period: "Cierre: 19 de febrero"},
+                    {date: 20, title: "Planta docente gestión 2026", type: "academic", description: "Fecha límite para presentación a Vicerrectorado de la planta docente con asignaturas, horarios y plan de estudios", period: "20 de febrero"},
+                    {date: 20, title: "Fin evaluación becas", type: "academic", description: "Fin de evaluación de becas diversas", period: "Cierre: 20 de febrero"},
+                    {date: 20, title: "Publicación horarios", type: "academic", description: "Publicación en vitrinas y página web de horarios de asignaturas", period: "20 de febrero"},
+                    {date: 20, title: "Aplicación PSA (3ra convocatoria)", type: "academic", description: "Aplicación de la tercera Prueba de Suficiencia Académica", period: "20 de febrero"},
+                    {date: 23, title: "INICIO ACTIVIDADES ACADÉMICAS", type: "academic", description: "Inicio del primer semestre y sistema anual de la gestión 2026", period: "23 de febrero"},
+                    {date: 27, title: "Primera mesa de examen", type: "academic", description: "Primera mesa de examen para cursos de temporada", period: "27 de febrero"}
+                ]
+            },
+            2: { // Marzo 2026
+                events: [
+                    {date: 5, title: "Fin trámites académicos", type: "academic", description: "Fin de trámites académicos periodo 1/2026 (Traspasos de universidad, Suspensión de Estudios, Readmisión de Estudios, Transferencia de Carrera (Central – Sede - Central), Cambios de carrera)", period: "Cierre: 5 de marzo"},
+                    {date: 6, title: "Entrega listas beneficiarios becas", type: "academic", description: "Entrega de listas de beneficiarios a Beca Alimentación e Internado", period: "6 de marzo"},
+                    {date: 6, title: "Entrega nóminas beneficiarios becas", type: "academic", description: "Entrega de nóminas de beneficiarios a las Becas: Auxiliar de Docencia, Investigación, Trabajo, Graduación y Extensión", period: "6 de marzo"},
+                    {date: 6, title: "Fin venta matrícula regular", type: "matricula", description: "Fin de venta de matrícula universitaria regular periodo 1/2026", period: "Cierre: 6 de marzo"},
+                    {date: 9, title: "Venta matrícula ampliada (+25%)", type: "matricula", description: "Inicio de venta de matrícula universitaria ampliada periodo 1/2026 (+25% del costo)", period: "9 al 31 de marzo"},
+                    {date: 27, title: "Comisiones académicas", type: "academic", description: "Fecha límite para presentación de comisiones: Investigación, Académica, Posgrado, Extensión, etc.", period: "27 de marzo"},
+                    {date: 30, title: "Apertura sistema calificaciones", type: "academic", description: "Primera apertura del Sistema Informático para subir calificaciones (Sistema Semestral)", period: "30 de marzo al 30 de abril"},
+                    {date: 31, title: "Fin venta matrícula ampliada (+25%)", type: "matricula", description: "Fin de venta de matrícula ampliada periodo 1/2026 (+25%)", period: "Cierre: 31 de marzo"}
+                ]
+            },
+            3: { // Abril 2026
+                events: [
+                    {date: 1, title: "Venta matrícula ampliada (+50%)", type: "matricula", description: "Inicio de venta de matrícula universitaria ampliada periodo 1/2026 (+50% del costo)", period: "1 al 30 de abril"},
+                    {date: 3, title: "Viernes Santo", type: "holiday", description: "Feriado nacional - Conmemoración de la pasión y muerte de Jesucristo", period: "3 de abril"},
+                    {date: 30, title: "Programación asignaturas", type: "academic", description: "Fin de programación de asignaturas periodo 1/2026", period: "Cierre: 30 de abril"},
+                    {date: 30, title: "Fin venta matrícula ampliada (+50%)", type: "matricula", description: "Fin de venta de matrícula ampliada periodo 1/2026 (+50%)", period: "Cierre: 30 de abril"},
+                    {date: 30, title: "Fin apertura sistema calificaciones", type: "academic", description: "Fin de primera apertura sistema para calificaciones (Sistema Semestral)", period: "Cierre: 30 de abril"},
+                    {date: 30, title: "Estadísticas e indicadores", type: "academic", description: "Presentación de las Estadísticas e Indicadores Académicas gestión 2025", period: "30 de abril"},
+                    {date: 30, title: "Viajes prácticas campo", type: "academic", description: "Fecha límite para presentación del Cronograma de Viajes de Prácticas de Campo (Sistema Anual 1/2026 y Sistema Semestral 1/2026)", period: "30 de abril"}
+                ]
+            },
+            4: { // Mayo 2026
+                events: [
+                    {date: 1, title: "Día del Trabajo", type: "holiday", description: "Feriado nacional - Día Internacional de los Trabajadores", period: "1 de mayo"},
+                    {date: 25, title: "Apertura sistema calificaciones", type: "academic", description: "Segunda apertura del Sistema Informático para subir calificaciones (Sistema Semestral)", period: "25 de mayo al 19 de junio"}
+                ]
+            },
+          5: { // Junio 2026
+                events: [
+                    {date: 1, title: "Apertura sistema calificaciones", type: "academic", description: "Primera apertura del Sistema Informático para subir calificaciones (Sistema Anual)", period: "1 al 10 de junio"},
+                    {date: 1, title: "Publicación admisión especial 2/2026", type: "academic", description: "Publicación de Convocatorias para Admisión Especial periodo 2/2026", period: "1 de junio"},
+                    {date: 1, title: "Inscripciones PSA 1ra convocatoria", type: "academic", description: "Inscripciones para la primera convocatoria PSA del segundo semestre (Primer PSA)", period: "1 de junio al 8 de julio"},
+                    {date: 4, title: "Corpus Christi", type: "holiday", description: "Feriado nacional - Celebración del Cuerpo y la Sangre de Cristo", period: "4 de junio"},
+                    {date: 6, title: "Día del Docente Universitario", type: "holiday", description: "Feriado universitario - Homenaje a los docentes universitarios", period: "6 de junio"},
+                    {date: 10, title: "Fin apertura sistema calificaciones", type: "academic", description: "Cierre del Sistema Informático para subir calificaciones - Primera apertura (Sistema Anual)", period: "Cierre: 10 de junio"},
+                    {date: 19, title: "Fin apertura sistema calificaciones", type: "academic", description: "Fin de segunda apertura sistema para calificaciones (Sistema Semestral)", period: "Cierre: 19 de junio"},
+                    {date: 21, title: "Año Nuevo Aymara", type: "holiday", description: "Feriado nacional - Celebración del año nuevo andino o Willkakuti", period: "21 de junio"},
+                    {date: 23, title: "Recepción folders admisión especial", type: "academic", description: "Recepción de folders y solicitudes para Admisión Especial periodo 2/2026", period: "23 de junio al 31 de julio"}
+                ]
+            },
+            6: { // Julio 2026
+                events: [
+                    {date: 1, title: "Venta matrícula regular", type: "matricula", description: "Inicio de venta de matrícula universitaria regular para segundo semestre", period: "1 de julio al 14 de agosto"},
+                    {date: 1, title: "Trámites académicos", type: "academic", description: "Inicio de trámites académicos para segundo semestre (Traspasos, Suspensión de Estudios, Readmisión de Estudios, Transferencia de Carrera, Cambios de carrera)", period: "1 de julio al 13 de agosto"},
+                    {date: 1, title: "Programación asignaturas", type: "academic", description: "Inicio de programación de asignaturas para segundo semestre", period: "1 de julio al 30 de septiembre"},
+                    {date: 1, title: "Apertura sistema calificaciones", type: "academic", description: "Tercera apertura del Sistema Informático para subir calificaciones (Sistema Semestral)", period: "1 al 10 de julio"},
+                    {date: 6, title: "Inscripciones PSA 2da convocatoria", type: "academic", description: "Inscripciones para la segunda convocatoria PSA del segundo semestre", period: "6 de julio al 13 de agosto"},
+                    {date: 8, title: "Entrega planillas calificaciones", type: "academic", description: "Inicio de entrega de planillas de calificaciones del primer semestre (Sistema Semestral 1/2026)", period: "8 de julio al 7 de agosto"},
+                    {date: 8, title: "Fin inscripciones PSA 1ra convocatoria", type: "academic", description: "Fin de inscripciones para la primera convocatoria PSA del segundo semestre", period: "Cierre: 8 de julio"},
+                    {date: 9, title: "PSA primer semestre", type: "academic", description: "Aplicación de la primera Prueba de Suficiencia Académica para segundo semestre", period: "9 de julio"},
+                    {date: 10, title: "FIN PRIMER SEMESTRE", type: "academic", description: "Finalización de actividades del primer semestre", period: "10 de julio"},
+                    {date: 10, title: "Fin apertura sistema calificaciones", type: "academic", description: "Fin de tercera apertura sistema para calificaciones (Sistema Semestral)", period: "Cierre: 10 de julio"},
+                    {date: 10, title: "Fin apertura sistema calificaciones", type: "academic", description: "Fin de primera apertura sistema para calificaciones (Sistema Anual)", period: "Cierre: 10 de julio"},
+                    {date: 13, title: "RECESO DE INVIERNO", type: "holiday", description: "Receso universitario de invierno - Descanso entre semestres", period: "13 al 24 de julio (2 semanas)"},
+                    {date: 18, title: "Día del Trabajador Universitario", type: "holiday", description: "Feriado universitario - Reconocimiento al personal administrativo", period: "18 de julio"},
+                    {date: 24, title: "Fin receso de invierno", type: "holiday", description: "Fin del receso universitario de invierno", period: "Cierre: 24 de julio"},
+                    {date: 25, title: "Día Autonomía Universitaria", type: "holiday", description: "Feriado universitario - Conmemoración de la autonomía universitaria", period: "25 de julio"},
+                    {date: 27, title: "RETORNO ACTIVIDADES", type: "academic", description: "Retorno a actividades después del receso de invierno", period: "27 de julio"},
+                    {date: 27, title: "INICIO SEGUNDO SEMESTRE", type: "academic", description: "Inicio de actividades del segundo semestre", period: "27 de julio"},
+                    {date: 31, title: "Fin recepción folders admisión especial", type: "academic", description: "Fin de recepción de folders y solicitudes para Admisión Especial periodo 2/2026", period: "Cierre: 31 de julio"}
+                ]
+            },
+            7: { // Agosto 2026
+                events: [
+                    {date: 3, title: "Evaluación becas continuidad", type: "academic", description: "Informe de evaluación a las distintas Becas respecto al desempeño académico, para la continuidad de la designación como beneficiario (Sistema Semestral)", period: "3 al 12 de agosto"},
+                    {date: 3, title: "Evaluación becas continuidad", type: "academic", description: "Informe de evaluación a las distintas Becas respecto al desempeño académico, para la continuidad de la designación como beneficiario (Sistema Anual)", period: "3 al 21 de agosto"},
+                    {date: 3, title: "Envío folders admisión especial", type: "academic", description: "Envío de folders a las carreras para su evaluación de Admisión Especial periodo 2/2026", period: "3 al 7 de agosto"},
+                    {date: 6, title: "Día Independencia Bolivia", type: "holiday", description: "Feriado nacional - Declaración de Independencia de Bolivia", period: "6 de agosto"},
+                    {date: 7, title: "Fin entrega planillas calificaciones", type: "academic", description: "Fin de entrega de planillas de calificaciones del primer semestre (Sistema Semestral 1/2026)", period: "Cierre: 7 de agosto"},
+                    {date: 7, title: "Fin envío folders admisión especial", type: "academic", description: "Fin de envío de folders a las carreras para evaluación de Admisión Especial", period: "Cierre: 7 de agosto"},
+                    {date: 12, title: "Fin evaluación becas continuidad", type: "academic", description: "Fin de evaluación para continuidad de becas (Sistema Semestral)", period: "Cierre: 12 de agosto"},
+                    {date: 13, title: "Fin trámites académicos", type: "academic", description: "Fin de trámites académicos para segundo semestre (Traspasos, Suspensión de Estudios, Readmisión de Estudios, Transferencia de Carrera (Central – Sede - Central), Cambios de carrera)", period: "Cierre: 13 de agosto"},
+                    {date: 13, title: "Fin inscripciones PSA", type: "academic", description: "Fin de inscripciones para la segunda convocatoria PSA del segundo semestre", period: "Cierre: 13 de agosto"},
+                    {date: 14, title: "Entrega nóminas admisión especial", type: "academic", description: "Entrega de nóminas de postulantes admitidos a la DSA para periodo 2/2026", period: "Fecha límite: 14 de agosto"},
+                    {date: 14, title: "PSA segunda convocatoria 2/2026", type: "academic", description: "Aplicación de la segunda Prueba de Suficiencia Académica para segundo semestre", period: "14 de agosto"},
+                    {date: 14, title: "Fin venta matrícula regular", type: "matricula", description: "Fin de venta de matrícula universitaria regular para segundo semestre", period: "Cierre: 14 de agosto"},
+                    {date: 14, title: "Segunda mesa examen", type: "academic", description: "Fecha límite de entrega de resultados de la segunda mesa de examen (cursos de temporada)", period: "14 de agosto"},
+                    {date: 17, title: "Venta matrícula ampliada (+25%)", type: "matricula", description: "Inicio de venta de matrícula universitaria ampliada periodo 2/2026 (+25% del costo)", period: "17 de agosto al 11 de septiembre"},
+                    {date: 21, title: "Fin evaluación becas continuidad", type: "academic", description: "Fin de evaluación para continuidad de becas (Sistema Anual)", period: "Cierre: 21 de agosto"},
+                    {date: 31, title: "Cronograma viajes prácticas campo", type: "academic", description: "Presentación de la programación del Cronograma de Viajes de Prácticas de Campo (Sistema Semestral 2/2026)", period: "Fecha límite: 31 de agosto"}
+                ]
+            },
+            8: { // Septiembre 2026
+                events: [
+                    {date: 1, title: "Apertura sistema calificaciones", type: "academic", description: "Segunda apertura del Sistema Informático para subir calificaciones (Sistema Anual)", period: "1 de septiembre al 30 de octubre"},
+                    {date: 11, title: "Fin venta matrícula ampliada (+25%)", type: "matricula", description: "Fin de venta de matrícula ampliada periodo 2/2026 (+25%)", period: "Cierre: 11 de septiembre"},
+                    {date: 14, title: "Venta matrícula ampliada (+50%)", type: "matricula", description: "Inicio de venta de matrícula universitaria ampliada periodo 2/2026 (+50% del costo)", period: "14 al 30 de septiembre"},
+                    {date: 21, title: "Día del Estudiante Universitario", type: "holiday", description: "Feriado universitario - Celebración del día del estudiante", period: "21 de septiembre"},
+                    {date: 30, title: "Fin venta matrícula ampliada (+50%)", type: "matricula", description: "Fin de venta de matrícula ampliada periodo 2/2026 (+50%)", period: "Cierre: 30 de septiembre"},
+                    {date: 30, title: "Fin programación asignaturas", type: "academic", description: "Fin de programación de asignaturas para segundo semestre", period: "Cierre: 30 de septiembre"},
+                   
+                ]
+            },
+            9: { // Octubre 2026
+              events: [
+                    {date: 6, title: "Feria Académica y Cultural", type: "academic", description: "Feria Académica y Cultural UATF 2026 - Primer día", period: "6 al 8 de octubre"},
+                    {date: 7, title: "Feria Académica y Cultural", type: "academic", description: "Feria Académica y Cultural UATF 2026 - Segundo día", period: "6 al 8 de octubre"},
+                    {date: 8, title: "Feria Académica y Cultural", type: "academic", description: "Feria Académica y Cultural UATF 2026 - Tercer día", period: "6 al 8 de octubre"},
+                    {date: 14, title: "Aniversario Fundación UATF", type: "academic", description: "Acto Académico y desfile en conmemoración al Aniversario de Fundación de la Universidad Autónoma Tomás Frías", period: "14 de octubre"},
+                    {date: 15, title: "Fundación UATF", type: "holiday", description: "Aniversario de la Universidad Autónoma Tomás Frías", period: "15 de octubre"},
+                    {date: 30, title: "Cierre sistema calificaciones", type: "academic", description: "Cierre del Sistema Informático para subir calificaciones - Segunda apertura (Sistema Anual)", period: "30 de octubre"}
+    ]
+},
+            10: { // Noviembre 2026
+                events: [
+                    {date: 2, title: "Día de Todos los Difuntos", type: "holiday", description: "Feriado nacional - Día de conmemoración a los fieles difuntos", period: "2 de noviembre"},
+                    {date: 10, title: "Aniversario Potosí", type: "holiday", description: "Aniversario de la Gesta Libertaría de Potosí", period: "10 de noviembre"},
+                    {date: 16, title: "Apertura sistema calificaciones", type: "academic", description: "Tercera apertura del Sistema Informático para subir calificaciones (Sistema Anual)", period: "16 de noviembre al 16 de diciembre"},
+                    {date: 16, title: "Evaluación desempeño docente", type: "academic", description: "Inicio de evaluación al desempeño docente de la gestión 2026", period: "16 al 27 de noviembre"},
+                    {date: 27, title: "Evaluación desempeño docente", type: "academic", description: "Fin de evaluación al desempeño docente de la gestión 2026", period: "Cierre: 27 de noviembre"}
+                    
+                ]
+            },
+            11: { // Diciembre 2026
+                events: [
+                    {date: 11, title: "FINALIZACIÓN ACTIVIDADES", type: "academic", description: "Finalización de actividades académicas de la gestión 2026", period: "11 de diciembre"},
+                    {date: 14, title: "Entrega planillas calificaciones", type: "academic", description: "Inicio de entrega de planillas de calificaciones del segundo semestre y anual", period: "14 al 18 de diciembre"},
+                    {date: 16, title: "Fin apertura sistema calificaciones", type: "academic", description: "Fin de tercera apertura sistema para calificaciones (Sistema Anual)", period: "Cierre: 16 de diciembre"},
+                    {date: 18, title: "Entrega planillas calificaciones", type: "academic", description: "Fin de entrega de planillas de calificaciones del segundo semestre y anual", period: "Cierre: 18 de diciembre"},
+                    {date: 18, title: "CIERRE GESTIÓN ADMINISTRATIVA", type: "academic", description: "Cierre de gestión administrativa-académica", period: "18 de diciembre"},
+                    {date: 21, title: "RECESO FIN GESTIÓN", type: "holiday", description: "Inicio de receso universitario de fin de gestión", period: "21 de diciembre al 1 de enero de 2027 (2 semanas)"},
+                    {date: 25, title: "Navidad", type: "holiday", description: "Feriado nacional - Celebración de la Navidad", period: "25 de diciembre"}
+                ]
+            }
+        };
+
+        // Referencias a elementos del DOM
+        const introScreen = document.getElementById('introScreen');
+        const calendarScreen = document.getElementById('calendarScreen');
+        const continueBtn = document.getElementById('continueBtn');
+        const backBtn = document.getElementById('backBtn');
+        const calendarDays = document.getElementById('calendarDays');
+        const calendarTitle = document.getElementById('calendarTitle');
+        const currentMonthYear = document.getElementById('currentMonthYear');
+        const prevMonthBtn = document.getElementById('prevMonth');
+        const nextMonthBtn = document.getElementById('nextMonth');
+        const eventList = document.getElementById('eventList');
+        const categoryTabs = document.querySelectorAll('.category-tab');
+        const dayTooltip = document.getElementById('dayTooltip');
+        const tooltipOverlay = document.getElementById('tooltipOverlay');
+        const closeTooltip = document.getElementById('closeTooltip');
+        const tooltipContent = document.getElementById('tooltipContent');
+
+        // Variables para el control del calendario
+        let currentDate = new Date(2026, 0, 1); // EMPEZAMOS EN ENERO 2026
+        const monthNames = [
+            "ENERO", "FEBRERO", "MARZO", "ABRIL", "MAYO", "JUNIO",
+            "JULIO", "AGOSTO", "SEPTIEMBRE", "OCTUBRE", "NOVIEMBRE", "DICIEMBRE"
+        ];
+
+        // Función para generar el calendario
+        function generateCalendar(date) {
+            const year = date.getFullYear();
+            const month = date.getMonth();
+            
+            // Actualizar título del mes
+            calendarTitle.textContent = `${monthNames[month]} ${year}`;
+            currentMonthYear.textContent = `${monthNames[month]} ${year}`;
+            
+            // Limpiar el calendario
+            calendarDays.innerHTML = '';
+            
+            // Primer día del mes
+            const firstDay = new Date(year, month, 1);
+            // Último día del mes
+            const lastDay = new Date(year, month + 1, 0);
+            // Día de la semana del primer día (0 = Domingo, 1 = Lunes, ...)
+            const firstDayIndex = firstDay.getDay();
+            // Ajustar para que la semana empiece en lunes
+            const adjustedFirstDayIndex = firstDayIndex === 0 ? 6 : firstDayIndex - 1;
+            // Número de días en el mes
+            const daysInMonth = lastDay.getDate();
+            
+            // Agregar días vacíos al inicio si es necesario
+            for (let i = 0; i < adjustedFirstDayIndex; i++) {
+                const emptyDay = document.createElement('div');
+                emptyDay.classList.add('day', 'empty');
+                calendarDays.appendChild(emptyDay);
+            }
+            
+            // Agregar los días del mes
+            for (let day = 1; day <= daysInMonth; day++) {
+                const dayElement = document.createElement('div');
+                dayElement.classList.add('day');
+                
+                // Marcar si es hoy
+                const currentDay = new Date(year, month, day);
+                if (currentDay.toDateString() === new Date().toDateString() && year === new Date().getFullYear() && month === new Date().getMonth()) {
+                    dayElement.classList.add('today');
+                }
+                
+                // Número del día
+                const dayNumber = document.createElement('div');
+                dayNumber.classList.add('day-number');
+                dayNumber.textContent = day;
+                dayElement.appendChild(dayNumber);
+                
+                // Contenedor de eventos
+                const dayEvents = document.createElement('div');
+                dayEvents.classList.add('day-events');
+                dayElement.appendChild(dayEvents);
+                
+                // Agregar eventos si existen para este día
+                const dayEventsData = [];
+                if (academicCalendar[month] && academicCalendar[month].events) {
+                    academicCalendar[month].events.forEach(event => {
+                        if (event.date === day) {
+                            dayEventsData.push(event);
+                            
+                            const eventElement = document.createElement('div');
+                            eventElement.classList.add('event', event.type);
+                            
+                            // Añadir ícono según tipo
+                            if (window.innerWidth <= 768) {
+                                if (event.type === "holiday") eventElement.textContent = "🎉";
+                                else if (event.type === "academic") eventElement.textContent = "📚";
+                                else if (event.type === "matricula") eventElement.textContent = "💰";
+                            } else {
+                                // Para desktop, mostrar abreviaturas
+                                if (event.type === "holiday") eventElement.textContent = "FER";
+                                else if (event.type === "academic") eventElement.textContent = "ACAD";
+                                else if (event.type === "matricula") eventElement.textContent = "MAT";
+                            }
+                            
+                            dayEvents.appendChild(eventElement);
+                        }
+                    });
+                }
+                
+                // Marcar días con eventos
+                if (dayEventsData.length > 0) {
+                    dayElement.classList.add('has-events');
+                    if (dayEventsData.length > 1) {
+                        dayElement.classList.add('has-multiple-events');
+                    } else {
+                        dayElement.classList.add('has-single-event');
+                    }
+                }
+                
+                // Si hay eventos, hacer clickeable
+                if (dayEventsData.length > 0) {
+                    dayElement.style.cursor = 'pointer';
+                    dayElement.addEventListener('click', () => {
+                        showDayTooltip(dayEventsData, day, month, year);
+                    });
+                }
+                
+                calendarDays.appendChild(dayElement);
+            }
+            
+            // Actualizar lista de eventos del mes
+            updateEventList(month, 'all');
+        }
+
+        // Mostrar tooltip con eventos del día
+        function showDayTooltip(events, day, month, year) {
+            if (events.length === 0) return;
+            
+            const dateStr = `${day} de ${monthNames[month]} ${year}`;
+            let contentHTML = `<div class="tooltip-header">${dateStr}</div>`;
+            
+            events.forEach(event => {
+                contentHTML += `
+                    <div class="tooltip-event ${event.type}">
+                        <strong>${event.title}</strong>
+                        <div>${event.description}</div>
+                        <small>${event.period}</small>
+                    </div>
+                `;
+            });
+            
+            tooltipContent.innerHTML = contentHTML;
+            dayTooltip.style.display = 'block';
+            tooltipOverlay.style.display = 'block';
+        }
+
+        // Cerrar tooltip
+        function closeDayTooltip() {
+            dayTooltip.style.display = 'none';
+            tooltipOverlay.style.display = 'none';
+        }
+
+        // Función para actualizar la lista de eventos
+        function updateEventList(month, category) {
+            eventList.innerHTML = '';
+            
+            if (academicCalendar[month] && academicCalendar[month].events) {
+                const filteredEvents = academicCalendar[month].events.filter(event => {
+                    return category === 'all' || event.type === category;
+                });
+                
+                if (filteredEvents.length === 0) {
+                    const noEvents = document.createElement('div');
+                    noEvents.classList.add('event-card');
+                    noEvents.innerHTML = `<div class="event-title">No hay eventos de esta categoría en ${monthNames[month]}</div>`;
+                    eventList.appendChild(noEvents);
+                    return;
+                }
+                
+                filteredEvents.forEach(event => {
+                    const eventCard = document.createElement('div');
+                    eventCard.classList.add('event-card', event.type);
+                    
+                    const eventDate = document.createElement('div');
+                    eventDate.classList.add('event-date');
+                    eventDate.textContent = `${event.date} de ${monthNames[month]}`;
+                    
+                    const eventTitle = document.createElement('div');
+                    eventTitle.classList.add('event-title');
+                    eventTitle.textContent = event.title;
+                    
+                    const eventDescription = document.createElement('div');
+                    eventDescription.classList.add('event-description');
+                    eventDescription.textContent = event.description;
+                    
+                    const eventPeriod = document.createElement('div');
+                    eventPeriod.classList.add('event-period');
+                    eventPeriod.textContent = event.period;
+                    
+                    const eventType = document.createElement('span');
+                    eventType.classList.add('event-type', event.type);
+                    eventType.textContent = event.type === 'holiday' ? 'FERIADO' : 
+                                           event.type === 'academic' ? 'ACADÉMICO' : 'MATRÍCULA';
+                    
+                    eventCard.appendChild(eventDate);
+                    eventCard.appendChild(eventTitle);
+                    eventCard.appendChild(eventPeriod);
+                    eventCard.appendChild(eventDescription);
+                    eventCard.appendChild(eventType);
+                    
+                    eventList.appendChild(eventCard);
+                });
+            } else {
+                const noEvents = document.createElement('div');
+                noEvents.classList.add('event-card');
+                noEvents.innerHTML = `<div class="event-title">No hay eventos programados para ${monthNames[month]}</div>`;
+                eventList.appendChild(noEvents);
+            }
+        }
+
+        // Event Listeners
+        continueBtn.addEventListener('click', () => {
+            introScreen.classList.add('hidden');
+            calendarScreen.classList.add('active');
+            generateCalendar(currentDate);
+        });
+
+        backBtn.addEventListener('click', () => {
+            calendarScreen.classList.remove('active');
+            introScreen.classList.remove('hidden');
+        });
+
+        prevMonthBtn.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            
+            // Si estamos en enero 2026 y vamos para atrás, no permitir ir a 2025
+            if (currentDate.getFullYear() === 2026 && currentDate.getMonth() === 11) {
+                // Permitir ir a diciembre 2026 desde enero 2026
+                currentDate = new Date(2026, 11, 1);
+            } else if (currentDate.getFullYear() < 2026) {
+                // Si intentamos ir antes de 2026, mantenernos en enero 2026
+                currentDate = new Date(2026, 0, 1);
+            }
+            
+            generateCalendar(currentDate);
+            
+            // Actualizar categoría activa
+            const activeCategory = document.querySelector('.category-tab.active').dataset.category;
+            updateEventList(currentDate.getMonth(), activeCategory);
+        });
+
+        nextMonthBtn.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            
+            // Si estamos en diciembre 2026 y vamos para adelante, no permitir ir a 2027
+            if (currentDate.getFullYear() === 2027 && currentDate.getMonth() === 0) {
+                // Volver a enero 2026 (ciclo cerrado)
+                currentDate = new Date(2026, 0, 1);
+            } else if (currentDate.getFullYear() > 2026) {
+                // Si intentamos ir después de 2026, mantenernos en diciembre 2026
+                currentDate = new Date(2026, 11, 1);
+            }
+            
+            generateCalendar(currentDate);
+            
+            // Actualizar categoría activa
+            const activeCategory = document.querySelector('.category-tab.active').dataset.category;
+            updateEventList(currentDate.getMonth(), activeCategory);
+        });
+
+        // Filtros por categoría
+        categoryTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                // Remover clase active de todas las pestañas
+                categoryTabs.forEach(t => t.classList.remove('active'));
+                // Agregar clase active a la pestaña clickeada
+                tab.classList.add('active');
+                
+                // Filtrar eventos por categoría
+                const category = tab.dataset.category;
+                updateEventList(currentDate.getMonth(), category);
+            });
+        });
+
+        // Cerrar tooltip
+        closeTooltip.addEventListener('click', closeDayTooltip);
+        tooltipOverlay.addEventListener('click', closeDayTooltip);
+
+        // Cerrar tooltip con ESC
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeDayTooltip();
+            }
+        });
+
+        // Inicializar el calendario con enero 2026
+        generateCalendar(currentDate);
+    </script>
+</body>
+</html>
